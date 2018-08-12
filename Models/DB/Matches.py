@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from pymodm import EmbeddedMongoModel, fields
-from Models.DB.MatchesRatios import MatchRatioInfo
 from Models.DB.WebSites import WebSiteInfo
-from Models.DB.DBConnectionSetting import connect
 
 # Maç bilgilerini içerir
 class MatchInfo(EmbeddedMongoModel):

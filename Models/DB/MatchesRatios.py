@@ -2,7 +2,6 @@
 
 from pymodm import MongoModel, fields
 from Models.DB.Matches import MatchInfo
-from Models.DB.DBConnectionSetting import connect
 
 # Bir maçtaki aynı kategorideki oranların bilgilerini içerir
 class MatchRatioInfo(MongoModel):
@@ -11,7 +10,7 @@ class MatchRatioInfo(MongoModel):
     RateName = fields.CharField(required=True,blank=False)
     WebSiteMatchId = fields.CharField()
     CreateTime = fields.TimestampField(required=True)
-    MatchInfo = fields.ReferenceField(MatchInfo, required=True)
+    #MatchInfo = fields.ReferenceField(MatchInfo, required=True)
 
     # Verileri yazdırmak için kullanılan fonksiyon
     @property
