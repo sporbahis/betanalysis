@@ -51,11 +51,9 @@ class InterBahis(ClaimManagerBase):
                         temp_ratio.CreateTime = datetime.now()
                         temp_ratio.Name = self.find_ratio_name(item3)
                         temp_ratio.Rate = self.find_ratio_rate(item3)
-                        print("_____________________________________________________________________________________________________")
                         leage.print()
                         match.print()
-                        temp_ratio.print()
-                        print("_____________________________________________________________________________________________________")
+                        temp_ratio.save()
                         ratio_list.append(temp_ratio)
         return ratio_list
 

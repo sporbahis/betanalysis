@@ -14,7 +14,7 @@ def sensor():
 
 sched = BackgroundScheduler(daemon=True)
 sched.add_job(sensor,'interval',seconds=1)
-sched.start()
+#sched.start()
 
 
 @app.route('/')
