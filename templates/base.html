@@ -1,3 +1,25 @@
+<!-- -*- mode: jinja2 -*- -->
+{% macro input(name, label='', value='', type='text') -%}
+  <div class="form-input">
+    <label for="{{ name }}">{{ label or name }}</label>
+    <input type="{{ type }}" name="{{ name }}" value="{{ value }}" />
+  </div>
+{%- endmacro %}
+
+{% macro list_errors(errors) -%}
+  <ul class="error-list">
+    {% for error in errors %}
+      <li class="error-item"><strong>{{ error }}</strong>:
+        <ul class="error-item-list">
+          {% for error_item in errors[error] %}
+            <li class="error-item-list-item">{{ error_item }}</li>
+          {% endfor %}
+        </ul>
+      </li>
+    {% endfor %}
+  </ul>
+{%- endmacro %}
+
 <html><head>
 <meta http-equiv="content-type" content="text/html; charset=Windows-1254">
 <title> Tasarım Aşamasında </title>
