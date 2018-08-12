@@ -1,0 +1,6 @@
+Flask==0.11.1
+Jinja2==2.8
+pymodm
+dnspython
+gunicorn
+Werkzeug
