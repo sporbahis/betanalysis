@@ -1,20 +1,18 @@
 from flask import (Flask, render_template)
 
 from apscheduler.schedulers.background import BackgroundScheduler
-from datetime import datetime
-from Models.DB.TestModel import TestModel
+from Models.InterBahis import InterBahis
 
 
 app = Flask(__name__)
 
 def sensor():
-    test = TestModel()
-    test.Date = datetime.now()
-    test.save()
+    t = InterBahis("http://interbahis246.com")
+    t.find_leage()
 
 sched = BackgroundScheduler(daemon=True)
-sched.add_job(sensor,'interval',seconds=1)
-#sched.start()
+sched.add_job(sensor,'interval',hours=1)
+sched.start()
 
 
 @app.route('/')

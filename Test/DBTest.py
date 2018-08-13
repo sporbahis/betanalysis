@@ -15,6 +15,18 @@ web_site.BaseUrl = "http://interbahis246.com"
 web_site.Type = "InterBahis"
 web_site.save()
 
+
+# Create MatchRatio
+macth_ratio = MatchRatioInfo()
+macth_ratio.Type = "MAÇ SONUCU"
+macth_ratio.Rate = "2.96"
+macth_ratio.RateName = "Çaykur Rizespor"
+macth_ratio.WebSiteMatchId = "869019265"
+macth_ratio.CreateTime = datetime.now()
+#macth_ratio.MatchInfo = "1"
+macth_ratio.save()
+
+
 # Create Match
 match = MatchInfo()
 match.Name = "Çaykur Rizespor - Kasımpaşa"
@@ -32,14 +44,5 @@ leage.Matches = [match]
 leage.save()
 
 
-# Create MatchRatio
-macth_ratio = MatchRatioInfo()
-macth_ratio.Type = "MAÇ SONUCU"
-macth_ratio.Rate = 2.96
-macth_ratio.RateName = "Çaykur Rizespor"
-macth_ratio.WebSiteMatchId = "869019265"
-macth_ratio.CreateTime = datetime.now()
-macth_ratio.MatchInfo = match._id
-macth_ratio.save()
 
 print("Veriler Hazır")

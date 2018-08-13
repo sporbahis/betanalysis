@@ -35,36 +35,34 @@ class InterBahis(ClaimManagerBase):
         return name
 
     def find_ratio_rate(self,ratioList):
-        rate = "???????????"
+        rate = "-0"
         for item in ratioList.find_all("span",class_="main-rate"):
             rate = item.contents[0]
-        return rate
+        return str(rate.replace(',','.'))
 
     def find_ratio(self,ratioList,type,match,leage):
         ratio_list = []
         for item1 in ratioList.find_all("div",class_="fixturelayout-rate"):
             for item2 in item1.find_all("li"):
                 for item3 in item2.find_all("a",class_="anaoran"):
-                    if len(item3) > 0:
-                        temp_ratio = MatchRatioInfo()
-                        temp_ratio.Type = type
-                        temp_ratio.CreateTime = datetime.now()
-                        temp_ratio.Name = self.find_ratio_name(item3)
-                        temp_ratio.Rate = self.find_ratio_rate(item3)
-                        leage.print()
-                        match.print()
-                        temp_ratio.save()
-                        ratio_list.append(temp_ratio)
+                    temp_ratio = MatchRatioInfo()
+                    temp_ratio.Type = type
+                    temp_ratio.CreateTime = datetime.now()
+                    temp_ratio.RateName = self.find_ratio_name(item3)
+                    temp_ratio.Rate = self.find_ratio_rate(item3)
+                    temp_ratio.WebSiteMatchId = 1
+                    ratio_list.append(temp_ratio)
         return ratio_list
 
     def find_match_ratio(self,temp_match,leage):
-        url = ClaimManagerBase.base_url + "/oddspop/" + str(temp_match.WebsiteId) + "/"
+        url = ClaimManagerBase.base_url + "/oddspop/" + str(temp_match.WebSiteMachId) + "/"
         html_request = requests.get(url, headers=ClaimManagerBase.headers, timeout=500000, allow_redirects=False)
         html = BeautifulSoup(html_request.content, 'html.parser')
         ratio_list = []
         for item in html.find_all('div',class_="sub-main-well"):
             ratio_type = self.find_ratio_type(item)
-            ratio_list.append(self.find_ratio(item,ratio_type,temp_match,leage))
+            test = self.find_ratio(item,ratio_type,temp_match,leage)
+            ratio_list = ratio_list + test
         return ratio_list
 
     def find_match_detail_id(self,html):
@@ -77,17 +75,21 @@ class InterBahis(ClaimManagerBase):
         match_list = []
         for item in html.find_all("div",class_="fixturelayout"):
             temp_match = MatchInfo()
-            temp_match.WebsiteId = self.find_match_detail_id(item)
-            temp_match.FirstTeamName = self.find_match_first_team_name(item)
-            temp_match.SecondTeamName = self.find_match_second_team_name(item)
-            temp_match.Hour = self.find_match_hour(item)
-            temp_match.Date = self.find_match_date(item)
-            temp_match.RecordTime = datetime.now()
-            temp_match.Name = temp_match.FirstTeamName+" - "+temp_match.SecondTeamName
-            temp_match.Ratios.append(self.find_match_ratio(temp_match,leage))
-            match_list.append(temp_match)
-            if len(match_list) > 2:
-                break
+            try:
+                temp_match.WebSiteMachId = self.find_match_detail_id(item)
+                temp_match.FirstTeamName = self.find_match_first_team_name(item)
+                temp_match.SecondTeamName = self.find_match_second_team_name(item)
+                temp_match.Hour = self.find_match_hour(item)
+                temp_match.Date = self.find_match_date(item)
+                temp_match.CreateTime = datetime.now()
+                temp_match.Name = temp_match.FirstTeamName + " - " + temp_match.SecondTeamName
+                temp_match.LeageInfo = leage._id
+                temp_match.Ratios = temp_match.Ratios + self.find_match_ratio(temp_match, leage)
+                temp_match.save()
+                match_list.append(temp_match)
+            except :
+                pass
+
         return match_list
 
 
@@ -113,10 +115,10 @@ class InterBahis(ClaimManagerBase):
         return hour
 
     def find_match_date(self,html):
-        date = "??????????????????????????????????"
+        date = ""
         for item in html.find_all("li", class_="fixture-date"):
             date = item.contents[0]
-        return date
+        return datetime.strptime(date, '%d.%m')
 
 
     def find_leage_name(self,html):
@@ -135,7 +137,9 @@ class InterBahis(ClaimManagerBase):
         for item in html.find_all('div',class_="fixture-season-main-wrap"):
             temp_leage = LeageInfo()
             temp_leage.Name = self.find_leage_name(item)
-            temp_leage.Matches.append(self.find_match(item,temp_leage))
+            temp_leage.save()
+            self.find_match(item, temp_leage)
+
 
 
     def _set_cookie(self):

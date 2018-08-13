@@ -5,3 +5,5 @@ dnspython
 gunicorn
 Werkzeug
 apscheduler
+requests
+beautifulsoup4

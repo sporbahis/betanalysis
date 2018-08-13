@@ -1,15 +1,14 @@
 # -*- coding: utf-8 -*-
 
-from pymodm import MongoModel, fields
-from Models.DB.Matches import MatchInfo
+from pymodm import EmbeddedMongoModel, fields
 
 # Bir maçtaki aynı kategorideki oranların bilgilerini içerir
-class MatchRatioInfo(MongoModel):
+class MatchRatioInfo(EmbeddedMongoModel):
     Type = fields.CharField(required=True, blank=False)
     Rate = fields.Decimal128Field()
     RateName = fields.CharField(required=True,blank=False)
     WebSiteMatchId = fields.CharField()
-    CreateTime = fields.TimestampField(required=True)
+    CreateTime = fields.DateTimeField(required=True,blank=False)
     #MatchInfo = fields.ReferenceField(MatchInfo, required=True)
 
     # Verileri yazdırmak için kullanılan fonksiyon
