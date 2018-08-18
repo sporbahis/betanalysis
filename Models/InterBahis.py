@@ -155,8 +155,6 @@ class InterBahis(ClaimManagerBase):
             if temp[:1] == "#":
                 seassion_name = item.contents
                 id = item.parent["data-target"].strip("#")
-                print(seassion_name)
-                print(id)
         return (seassion_name, id)
 
 
@@ -173,7 +171,7 @@ class InterBahis(ClaimManagerBase):
                 seassion_name = item.contents[0]
                 unique_key = self.encrypt_string(name + seassion_name)
                 try:
-                    leage = dict2obj(LeageInfo.objects.values().get({"UniqueKey": unique_key}))
+                    leage = LeageInfo.objects.raw({"UniqueKey": unique_key})
                 except LeageInfo.DoesNotExist:
                     leage = LeageInfo()
                     leage.Name = name
