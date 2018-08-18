@@ -171,7 +171,7 @@ class InterBahis(ClaimManagerBase):
                 seassion_name = item.contents[0]
                 unique_key = self.encrypt_string(name + seassion_name)
                 try:
-                    leage = LeageInfo.objects.raw({"UniqueKey": unique_key})
+                    leage = LeageInfo.objects.raw({"UniqueKey": unique_key}).all().first()
                 except LeageInfo.DoesNotExist:
                     leage = LeageInfo()
                     leage.Name = name
