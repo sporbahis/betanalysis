@@ -15,7 +15,6 @@ from Models.BaseClass.ClaimManagerBase import ClaimManagerBase
 from Models.DB.MatchesRatios import MatchRatioInfo
 from Models.DB.Leages import LeageInfo
 from Models.DB.Matches import MatchInfo
-from Helper.HelperManager import dict2obj
 
 
 class InterBahis(ClaimManagerBase):
