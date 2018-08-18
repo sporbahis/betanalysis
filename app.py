@@ -3,13 +3,21 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from Models.DB.Matches import MatchInfo
 from Models.InterBahis import InterBahis
 from Models.DB.Leages import LeageInfo
+from Models.DB.JobSchedular import JobSchedular
 import re
+import datetime
 
 app = Flask(__name__)
 
 def sensor():
+    job = JobSchedular()
+    job.StartDate = datetime.datetime.utcnow()
+    job.JobName = "Deneme"
+    job.save()
     t = InterBahis("http://interbahis247.com")
     t.find_leage()
+    job.FinishDate =  datetime.datetime.utcnow()
+    job.save()
 
 
 sched = BackgroundScheduler(daemon=True)
