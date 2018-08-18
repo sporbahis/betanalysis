@@ -5,7 +5,9 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from Models.DB.Matches import MatchInfo
 from Models.InterBahis import InterBahis
 from Models.DB.Leages import LeageInfo
-
+from Models.GraphicView import GraphicModel, GraphicData
+import re
+import datetime
 
 app = Flask(__name__)
 
@@ -15,16 +17,26 @@ def sensor():
 
 sched = BackgroundScheduler(daemon=True)
 sched.add_job(sensor,'interval',hours=1)
-sched.start()
+#sched.start()
 
 
 @app.route('/test')
 def test():
-    return render_template('test.html', leages = LeageInfo.objects.all(), matches = MatchInfo.objects.limit(10).all())
+    return render_template('test.html', leages = LeageInfo.objects.all(), matches = MatchInfo.objects.limit(5).all())
 
 @app.route('/')
 def index():
     return render_template('index.html', leages = LeageInfo.objects.all(), matches = MatchInfo.objects.all())
+
+@app.template_filter()
+def group_by_type(list):
+    temp_dict = dict()
+    for x in list:
+        temp_name = re.sub('[^a-zA-Z0-9]+', '', x.Type).lower()
+        temp_dict.setdefault(temp_name, []).append(x)
+    return temp_dict
+
+app.jinja_env.filters['group_by_type'] = group_by_type
 
 
 def main():
