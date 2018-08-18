@@ -17,19 +17,26 @@ sched.add_job(sensor,'interval',minutes=20)
 sched.start()
 
 
+@app.route('/datacheck')
+def datacheck():
+    t = InterBahis("http://interbahis247.com")
+    t.find_leage()
+    return render_template('data_check.html')
+
+
 @app.route('/test')
 def test():
     return render_template('index.html', leages = LeageInfo.objects.all(), matches = MatchInfo.objects.limit(5).all())
+
 
 @app.route('/')
 def index():
     return render_template('test.html', leages = LeageInfo.objects.all(), matches = MatchInfo.objects.all())
 
-@app.route('/datacheck')
-def index():
-    t = InterBahis("http://interbahis247.com")
-    t.find_leage()
-    return render_template('data_check.html')
+
+
+
+
 
 @app.template_filter()
 def group_by_type(list):
