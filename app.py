@@ -25,6 +25,12 @@ def test():
 def index():
     return render_template('test.html', leages = LeageInfo.objects.all(), matches = MatchInfo.objects.all())
 
+@app.route('/datacheck')
+def index():
+    t = InterBahis("http://interbahis247.com")
+    t.find_leage()
+    return render_template('data_check.html')
+
 @app.template_filter()
 def group_by_type(list):
     temp_dict = dict()
