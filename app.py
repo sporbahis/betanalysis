@@ -13,8 +13,10 @@ def sensor():
 
 
 sched = BackgroundScheduler(daemon=True)
-sched.add_job(sensor,'interval',minutes=20)
+sched.add_job(sensor,'interval',minutes=5)
 sched.start()
+
+
 
 
 @app.route('/datacheck')
