@@ -29,3 +29,18 @@ print(soup.prettify())
 #text_file.write(htmlRequest.text.encode('utf8'))
 #text_file.close()
 print("Veriler Hazır")
+
+for item in html.find_all('div', class_="fixture-season-main-wrap"):
+    temp_leage = LeageInfo()
+    temp_leage.Name = self.find_leage_name(item)
+    temp_leage.SeassionName, id = self.find_seassion_name(item)
+    print("-------------------------------------")
+    print(temp_leage.SeassionName)
+    print(id)
+    # temp_leage.save()
+    # self.find_match(item, temp_leage)
+    test = test + 1
+    print("-------------------------------------")
+    if test > 3:
+        print("test" + str(test))
+        break

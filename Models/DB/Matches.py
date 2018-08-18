@@ -11,11 +11,12 @@ class MatchInfo(MongoModel):
     FirstTeamName = fields.CharField(required=True,blank=False)
     SecondTeamName = fields.CharField(required=True,blank=False)
     Date = fields.DateTimeField(required=True,blank=False)
-    CreateTime = fields.TimestampField(required=True,blank=False)
-    Ratios = fields.EmbeddedDocumentListField(MatchRatioInfo, default=[])
+    CreateTime = fields.DateTimeField(required=True,blank=False)
+    Ratios = fields.EmbeddedDocumentListField(MatchRatioInfo, default=[],blank=True)
     WebSiteMachId = fields.CharField()
     LeageInfo = fields.ReferenceField(LeageInfo, required=True)
     Hour = fields.CharField(required=True,blank=False)
+    UniqueKey = fields.CharField(required=True, blank=False)
     #WebSiteInfo = fields.ReferenceField(WebSiteInfo, required=True)
 
     # Verileri yazdırmak için kullanılan fonksiyon
