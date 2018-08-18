@@ -21,7 +21,7 @@ def sensor():
 
 
 sched = BackgroundScheduler(daemon=True)
-sched.add_job(sensor,'interval',minutes=2)
+sched.add_job(sensor,'interval',minutes=5)
 sched.start()
 
 
