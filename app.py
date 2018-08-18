@@ -1,19 +1,16 @@
 from flask import (Flask, render_template)
-
 from apscheduler.schedulers.background import BackgroundScheduler
-
 from Models.DB.Matches import MatchInfo
 from Models.InterBahis import InterBahis
 from Models.DB.Leages import LeageInfo
-from Models.GraphicView import GraphicModel, GraphicData
 import re
-import datetime
 
 app = Flask(__name__)
 
 def sensor():
     t = InterBahis("http://interbahis247.com")
     t.find_leage()
+
 
 sched = BackgroundScheduler(daemon=True)
 sched.add_job(sensor,'interval',hours=1)
