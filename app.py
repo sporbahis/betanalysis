@@ -19,11 +19,11 @@ sched.start()
 
 @app.route('/test')
 def test():
-    return render_template('test.html', leages = LeageInfo.objects.all(), matches = MatchInfo.objects.limit(5).all())
+    return render_template('index.html', leages = LeageInfo.objects.all(), matches = MatchInfo.objects.limit(5).all())
 
 @app.route('/')
 def index():
-    return render_template('index.html', leages = LeageInfo.objects.all(), matches = MatchInfo.objects.all())
+    return render_template('test.html', leages = LeageInfo.objects.all(), matches = MatchInfo.objects.all())
 
 @app.template_filter()
 def group_by_type(list):
