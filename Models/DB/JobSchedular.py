@@ -8,5 +8,6 @@ from Models.DB.DBConnectionSetting import connect
 class JobSchedular(MongoModel):
     FinishDate = fields.DateTimeField(required=False, blank=True)
     StartDate = fields.DateTimeField(required=True, blank=False)
+    State = fields.CharField(required=True, blank=False)
     JobName = fields.CharField()
 

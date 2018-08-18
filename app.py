@@ -10,14 +10,20 @@ import datetime
 app = Flask(__name__)
 
 def sensor():
-    job = JobSchedular()
-    job.StartDate = datetime.datetime.utcnow()
-    job.JobName = "Deneme"
-    job.save()
-    t = InterBahis("http://interbahis247.com")
-    t.find_leage()
-    job.FinishDate =  datetime.datetime.utcnow()
-    job.save()
+    try:
+        JobSchedular.objects.raw({"State": "DevamEdiyor"}).all().first()
+        return 1
+    except JobSchedular.DoesNotExist:
+        job = JobSchedular()
+        job.StartDate = datetime.datetime.utcnow()
+        job.JobName = "Deneme"
+        job.State = "DevamEdiyor"
+        job.save()
+        t = InterBahis("http://interbahis247.com")
+        t.find_leage()
+        job.FinishDate = datetime.datetime.utcnow()
+        job.State = "Bitti"
+        job.save()
 
 
 sched = BackgroundScheduler(daemon=True)
