@@ -9,26 +9,26 @@ import datetime
 
 app = Flask(__name__)
 
-def sensor():
+def background_InterBahis():
     try:
-        JobSchedular.objects.raw({"State": "DevamEdiyor"}).all().first()
+        JobSchedular.objects.raw({"State": "Continue"}).all().first()
         return 1
     except JobSchedular.DoesNotExist:
         job = JobSchedular()
         job.StartDate = datetime.datetime.utcnow()
-        job.JobName = "Deneme"
-        job.State = "DevamEdiyor"
+        job.JobName = "İnterBahis"
+        job.State = "Continue"
         job.save()
         t = InterBahis("http://interbahis247.com")
         t.find_leage()
         job.FinishDate = datetime.datetime.utcnow()
-        job.State = "Bitti"
+        job.State = "Finished"
         job.save()
 
 
 sched = BackgroundScheduler(daemon=True)
-sched.add_job(sensor,'interval',minutes=10)
-sched.start()
+sched.add_job(background_InterBahis,'interval',minutes=10,id="00001",name="İnterBahis",coalesce=True,max_instances=1)
+#sched.start()
 
 
 
@@ -47,7 +47,7 @@ def test():
 
 @app.route('/')
 def index():
-    return render_template('test.html', leages = LeageInfo.objects.all(), matches = MatchInfo.objects.all())
+    return render_template('test.html', leages = LeageInfo.objects.all(), matches = MatchInfo.objects.limit(5).all())
 
 
 
