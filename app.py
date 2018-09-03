@@ -19,7 +19,7 @@ def background_InterBahis():
         job.JobName = "İnterBahis"
         job.State = "Continue"
         job.save()
-        t = InterBahis("http://interbahis247.com")
+        t = InterBahis("http://interbahis249.com")
         t.find_leage()
         job.FinishDate = datetime.datetime.utcnow()
         job.State = "Finished"
@@ -36,7 +36,6 @@ def background_Remove_Matches():
         job.State = "Continue"
         job.save()
         t = InterBahis("http://interbahis249.com")
-        t.remove_matches()
         job.FinishDate = datetime.datetime.utcnow()
         job.State = "Finished"
         job.save()
