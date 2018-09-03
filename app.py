@@ -25,10 +25,26 @@ def background_InterBahis():
         job.State = "Finished"
         job.save()
 
+def background_Remove_Matches():
+    try:
+        JobSchedular.objects.raw({"State": "Continue"}).all().first()
+        return 1
+    except JobSchedular.DoesNotExist:
+        job = JobSchedular()
+        job.StartDate = datetime.datetime.utcnow()
+        job.JobName = "İnterBahis"
+        job.State = "Continue"
+        job.save()
+        t = InterBahis("http://interbahis247.com")
+        t.remove_matches()
+        job.FinishDate = datetime.datetime.utcnow()
+        job.State = "Finished"
+        job.save()
 
-sched = BackgroundScheduler(daemon=True)
-sched.add_job(background_InterBahis,'interval',minutes=10,id="00001",name="İnterBahis",coalesce=True,max_instances=1)
-#sched.start()
+
+schedular = BackgroundScheduler(daemon=True)
+schedular.add_job(background_InterBahis,'interval',minutes=10,coalesce=True,max_instances=1)
+schedular.start()
 
 
 
@@ -49,7 +65,9 @@ def test():
 def index():
     return render_template('test.html', leages = LeageInfo.objects.all(), matches = MatchInfo.objects.limit(5).all())
 
-
+@app.route('/match_info')
+def index():
+    return render_template('match_info.html', leages = LeageInfo.objects.all(), matches = MatchInfo.objects.limit(1).all())
 
 
 
