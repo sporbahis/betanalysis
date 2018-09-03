@@ -35,7 +35,7 @@ def background_Remove_Matches():
         job.JobName = "İnterBahis"
         job.State = "Continue"
         job.save()
-        t = InterBahis("http://interbahis247.com")
+        t = InterBahis("http://interbahis249.com")
         t.remove_matches()
         job.FinishDate = datetime.datetime.utcnow()
         job.State = "Finished"
@@ -43,7 +43,7 @@ def background_Remove_Matches():
 
 
 schedular = BackgroundScheduler(daemon=True)
-schedular.add_job(background_InterBahis,'interval',minutes=10,coalesce=True,max_instances=1)
+schedular.add_job(background_InterBahis,'interval',minutes=5,coalesce=True,max_instances=1)
 schedular.start()
 
 
