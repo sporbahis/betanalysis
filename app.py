@@ -60,14 +60,15 @@ def datacheck():
 def test():
     return render_template('index.html', leages = LeageInfo.objects.all(), matches = MatchInfo.objects.limit(5).all())
 
+@app.route('/match_info')
+def match_info():
+    return render_template('match_info.html', leages = LeageInfo.objects.all(), matches = MatchInfo.objects.limit(1).all())
 
 @app.route('/')
 def index():
     return render_template('test.html', leages = LeageInfo.objects.all(), matches = MatchInfo.objects.limit(5).all())
 
-@app.route('/match_info')
-def index():
-    return render_template('match_info.html', leages = LeageInfo.objects.all(), matches = MatchInfo.objects.limit(1).all())
+
 
 
 
