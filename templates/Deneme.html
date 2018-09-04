@@ -1,0 +1,64 @@
+<!-- -*- mode: jinja2 -*- -->
+<!doctype html>
+<html>
+  <head>
+    <title>Deneme</title>
+      <meta http-equiv="content-type" content="text/html; charset=Windows-1254">
+      <link rel="stylesheet" href="/static/css/normalize.css">
+      <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+      <link rel="stylesheet" href="/static/css/font-awesome.min.css">
+      <link rel="stylesheet" href="/static/css/themify-icons.css">
+      <link rel="stylesheet" href="/static/css/flag-icon.min.css">
+      <link rel="stylesheet" href="/static/css/cs-skin-elastic.css">
+      <!-- <link rel="stylesheet" href="assets/css/bootstrap-select.less"> -->
+      <link rel="stylesheet" href="/static/scss/style.css">
+      <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
+      <style>
+          table {
+    border-collapse: collapse;
+}
+
+      </style>
+  </head>
+  <body>
+
+  <ul id="match_list">
+
+  </ul>
+
+
+    <script src="/static/js/vendor/jquery-3.3.1.min.js"></script>
+    <script src="/static/js/popper.min.js"></script>
+    <script src="/static/js/plugins.js"></script>
+    <script src="/static/js/main.js"></script>
+
+  <script>
+
+      (function($){
+
+       jQuery.ajax({
+          type: "POST",
+          timeout: 30000,
+          url: "match_info",
+          contentType: "application/json",
+          data: JSON.stringify ({match_id:"5b8d82eb1de8920008b130ac"}),
+          success: function(resultData){
+              alert("success");
+            },
+          error : function(request, status, error) {
+                  if(status==="timeout") {
+                        alert("got timeout");
+                    } else {
+                        alert(error);
+                    }
+          }
+        });
+
+})(jQuery);
+
+
+
+  </script>
+
+  </body>
+</html>

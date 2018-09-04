@@ -10,7 +10,7 @@ import urllib.parse
 import hashlib
 from datetime import datetime
 from bs4 import BeautifulSoup
-from collections import namedtuple
+import math
 from Models.BaseClass.ClaimManagerBase import ClaimManagerBase
 from Models.DB.MatchesRatios import MatchRatioInfo
 from Models.DB.Leages import LeageInfo
@@ -18,6 +18,10 @@ from Models.DB.Matches import MatchInfo
 
 
 class InterBahis(ClaimManagerBase):
+    def __init__(self):
+        ClaimManagerBase.__init__(self)
+        self._set_cookie()
+
     def __init__(self, base_url):
         ClaimManagerBase.base_url = base_url
         ClaimManagerBase.__init__(self)
@@ -138,6 +142,15 @@ class InterBahis(ClaimManagerBase):
             date = item.contents[0]
         return date
 
+    def clear_match_data(self,date):
+        try:
+            allMatch = MatchInfo.objects.all()
+            for match in allMatch:
+                if math.floor(((date - match.Date).seconds) / 86400) > 1:
+                    match.delete()
+        except MatchInfo.DoesNotExist:
+            pass
+
 
     def find_leage_name(self, html):
         leage_name = "??????????????????????????????????"
@@ -180,6 +193,7 @@ class InterBahis(ClaimManagerBase):
                     leage.save()
                 session_html = item.parent.parent.find_all("div", {'id': id})
                 self.find_match(session_html[0],leage)
+
 
     def filter(self,list_new, list_old):
         update_list = []

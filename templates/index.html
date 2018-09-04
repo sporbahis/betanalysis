@@ -4,7 +4,7 @@
     <div class="container">
       <ul>
         {% for n in matches %}
-        <li>{{n.FirstTeamName ~ " - " ~ n.SecondTeamName ~ " - " ~ n.Date.strftime('%d.%m.%Y') ~ " - " ~ n.Hour}}</li>
+        <li>{{n._id ~ " - " ~ n.FirstTeamName ~ " - " ~ n.SecondTeamName ~ " - " ~ n.Date.strftime('%d.%m.%Y') ~ " - " ~ n.Hour}}</li>
             <ul>
             {% for x in n.Ratios|sort(attribute='Type')|sort(attribute='RateName')|sort(attribute='CreateTime') %}
                 <li>{{ x.Type ~ " " ~ x.RateName ~ " " ~ x.Rate ~ " " ~ x.CreateTime.strftime('%d.%m.%Y %H:%M') }}</li>
@@ -18,7 +18,7 @@
 {% endblock %}
 
 {% block page_js %}
-
+<script>
 
 </script>
 

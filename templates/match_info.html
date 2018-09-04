@@ -1,0 +1,7 @@
+
+ <li>{{match._id ~ " - " ~ match.FirstTeamName ~ " - " ~ match.SecondTeamName ~ " - " ~ match.Date.strftime('%d.%m.%Y') ~ " - " ~ match.Hour}}</li>
+ <ul>
+            {% for x in match.Ratios|sort(attribute='Type')|sort(attribute='RateName')|sort(attribute='CreateTime') %}
+                <li>{{ x.Type ~ " " ~ x.RateName ~ " " ~ x.Rate ~ " " ~ x.CreateTime.strftime('%d.%m.%Y %H:%M') }}</li>
+            {% endfor %}
+ </ul>
